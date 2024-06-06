@@ -1,0 +1,941 @@
+show dbs
+CRUD      72.00 KiB
+admin    168.00 KiB
+config    60.00 KiB
+local     80.00 KiB
+restAPI  228.00 KiB
+test      68.00 KiB
+use restAPI
+switched to db restAPI
+db.collections
+restAPI.collections
+show collections
+products
+userDetails
+users
+db.userDetails.find()
+{
+  _id: ObjectId('66615ee9113d55c484141e70'),
+  firstname: 'Guruprasad',
+  lastname: 'Bandla',
+  Age: 23,
+  email: 'bandla@mail.com',
+  phone: 987877
+}
+{
+  _id: ObjectId('66615ee9113d55c484141e71'),
+  firstname: 'prasad',
+  lastname: 'bandla'
+}
+db.userDetails.findOne({firstname:"guruprasad"})
+null
+db.userDetails.findOne({firstname:"Guruprasad"})
+{
+  _id: ObjectId('66615ee9113d55c484141e70'),
+  firstname: 'Guruprasad',
+  lastname: 'Bandla',
+  Age: 23,
+  email: 'bandla@mail.com',
+  phone: 987877
+}
+db.createCollection("Collec")
+{ ok: 1 }
+show collections
+Collec
+products
+userDetails
+users
+db.Collec.insert({name:"Arman", age:"23", phone:3456})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('66618be6cb022502fa82234e')
+  }
+}
+db.Collec.find()
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: '23',
+  phone: 3456
+}
+db.Collec.insertMany({name:"Guruprasad", age:23, phone:123456},{name:"prasad", age:24, phone:9894242})
+MongoInvalidArgumentError: Argument "docs" must be an array of documents
+db.Collec.insertMany([{name:"Guruprasad", age:23, phone:123456},{name:"prasad", age:24, phone:9894242}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('66618c64cb022502fa82234f'),
+    '1': ObjectId('66618c64cb022502fa822350')
+  }
+}
+db.Collec.find()
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: '23',
+  phone: 3456
+}
+{
+  _id: ObjectId('66618c64cb022502fa82234f'),
+  name: 'Guruprasad',
+  age: 23,
+  phone: 123456
+}
+{
+  _id: ObjectId('66618c64cb022502fa822350'),
+  name: 'prasad',
+  age: 24,
+  phone: 9894242
+}
+db.Collec.findOne()
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: '23',
+  phone: 3456
+}
+db.Collec.findOne({id:0})
+null
+var = [{}]
+SyntaxError: Unexpected token (1:4)
+
+> 1 | var = [{}]
+    |     ^
+var allusers = [{role:"web developer",firstname:"Guruprasad", lastname:"Bandla",},{role:"tester",firstname:"prasad",lastname:"bandla"}]
+db.Collec.insertMany(allusers)
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('66619998cb022502fa822351'),
+    '1': ObjectId('66619998cb022502fa822352')
+  }
+}
+db.Collec.find()
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: '23',
+  phone: 3456
+}
+{
+  _id: ObjectId('66618c64cb022502fa82234f'),
+  name: 'Guruprasad',
+  age: 23,
+  phone: 123456
+}
+{
+  _id: ObjectId('66618c64cb022502fa822350'),
+  name: 'prasad',
+  age: 24,
+  phone: 9894242
+}
+{
+  _id: ObjectId('66619998cb022502fa822351'),
+  role: 'web developer',
+  firstname: 'Guruprasad',
+  lastname: 'Bandla'
+}
+{
+  _id: ObjectId('66619998cb022502fa822352'),
+  role: 'tester',
+  firstname: 'prasad',
+  lastname: 'bandla'
+}
+db.Collec.update({role:"web developer"},{$set:{role:"Full stack developer"}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.Collec.findOne({role:"Full stack developer"})
+{
+  _id: ObjectId('66619998cb022502fa822351'),
+  role: 'Full stack developer',
+  firstname: 'Guruprasad',
+  lastname: 'Bandla'
+}
+db.Collec.find([$in:{"Full", "Stack"}])
+SyntaxError: Unexpected token, expected "," (1:19)
+
+> 1 | db.Collec.find([$in:{"Full", "Stack"}])
+    |                    ^
+db.Collec.remove({role:"tester"})
+DeprecationWarning: Collection.remove() is deprecated. Use deleteOne, deleteMany, findOneAndDelete, or bulkWrite.
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+db.Collec.find()
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: '23',
+  phone: 3456
+}
+{
+  _id: ObjectId('66618c64cb022502fa82234f'),
+  name: 'Guruprasad',
+  age: 23,
+  phone: 123456
+}
+{
+  _id: ObjectId('66618c64cb022502fa822350'),
+  name: 'prasad',
+  age: 24,
+  phone: 9894242
+}
+{
+  _id: ObjectId('66619998cb022502fa822351'),
+  role: 'Full stack developer',
+  firstname: 'Guruprasad',
+  lastname: 'Bandla'
+}
+db.Collec.updateMany({}, {$set:{role:"Mern Stack developer"},{name:"Guruprasad"},{age:30}})
+SyntaxError: Unexpected token (1:61)
+
+> 1 | db.Collec.updateMany({}, {$set:{role:"Mern Stack developer"},{name:"Guruprasad"},{age:30}})
+    |                                                              ^
+db.Collec.updateMany({},{ $set: {location:"Bangalore"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 4,
+  modifiedCount: 4,
+  upsertedCount: 0
+}
+db.Collec.find()
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: '23',
+  phone: 3456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66618c64cb022502fa82234f'),
+  name: 'Guruprasad',
+  age: 23,
+  phone: 123456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66618c64cb022502fa822350'),
+  name: 'prasad',
+  age: 24,
+  phone: 9894242,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619998cb022502fa822351'),
+  role: 'Full stack developer',
+  firstname: 'Guruprasad',
+  lastname: 'Bandla',
+  location: 'Bangalore'
+}
+db.Collec.updateMany({name:"Arman"}, { $inc:{age:age+1}})
+ReferenceError: age is not defined
+db.Collec.updateMany({name:"Arman"}, { $inc:{age:2}})
+MongoServerError: Cannot apply $inc to a value of non-numeric type. {_id: ObjectId('66618be6cb022502fa82234e')} has the field 'age' of non-numeric type string
+db.Collec.updateMany({age:23}, { $inc:{age:1}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.Collec.find()
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: '23',
+  phone: 3456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66618c64cb022502fa82234f'),
+  name: 'Guruprasad',
+  age: 24,
+  phone: 123456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66618c64cb022502fa822350'),
+  name: 'prasad',
+  age: 24,
+  phone: 9894242,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619998cb022502fa822351'),
+  role: 'Full stack developer',
+  firstname: 'Guruprasad',
+  lastname: 'Bandla',
+  location: 'Bangalore'
+}
+db.Collec.find({name:"prasad"})
+{
+  _id: ObjectId('66618c64cb022502fa822350'),
+  name: 'prasad',
+  age: 24,
+  phone: 9894242,
+  location: 'Bangalore'
+}
+db.Collec.find({age:{$gt:20}})
+{
+  _id: ObjectId('66618c64cb022502fa82234f'),
+  name: 'Guruprasad',
+  age: 24,
+  phone: 123456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66618c64cb022502fa822350'),
+  name: 'prasad',
+  age: 24,
+  phone: 9894242,
+  location: 'Bangalore'
+}
+db.Collec.insertOne({})
+{
+  acknowledged: true,
+  insertedId: ObjectId('66619f54cb022502fa822353')
+}
+db.Collec.insertOne({email:"guru@gmail.com",department:{name:"IT",category"IT}})
+SyntaxError: Unterminated string constant. (1:74)
+
+> 1 | db.Collec.insertOne({email:"guru@gmail.com",department:{name:"IT",category"IT}})
+    |                                                                           ^
+db.Collec.find().sort()
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: '23',
+  phone: 3456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66618c64cb022502fa82234f'),
+  name: 'Guruprasad',
+  age: 24,
+  phone: 123456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66618c64cb022502fa822350'),
+  name: 'prasad',
+  age: 24,
+  phone: 9894242,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619998cb022502fa822351'),
+  role: 'Full stack developer',
+  firstname: 'Guruprasad',
+  lastname: 'Bandla',
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619f54cb022502fa822353')
+}
+db.Collec.find().sort(-1)
+MongoInvalidArgumentError: Invalid sort format: -1 Sort must be a valid object
+db.Collec.find().sort({_id:-1})
+{
+  _id: ObjectId('66619f54cb022502fa822353')
+}
+{
+  _id: ObjectId('66619998cb022502fa822351'),
+  role: 'Full stack developer',
+  firstname: 'Guruprasad',
+  lastname: 'Bandla',
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66618c64cb022502fa822350'),
+  name: 'prasad',
+  age: 24,
+  phone: 9894242,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66618c64cb022502fa82234f'),
+  name: 'Guruprasad',
+  age: 24,
+  phone: 123456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: '23',
+  phone: 3456,
+  location: 'Bangalore'
+}
+db.Collec.find().sort({name:-1})
+{
+  _id: ObjectId('66618c64cb022502fa822350'),
+  name: 'prasad',
+  age: 24,
+  phone: 9894242,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66618c64cb022502fa82234f'),
+  name: 'Guruprasad',
+  age: 24,
+  phone: 123456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: '23',
+  phone: 3456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619998cb022502fa822351'),
+  role: 'Full stack developer',
+  firstname: 'Guruprasad',
+  lastname: 'Bandla',
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619f54cb022502fa822353')
+}
+db.Collec.deleteOne({name:"Guruprasad"})
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+db.Collec.find()
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: '23',
+  phone: 3456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66618c64cb022502fa822350'),
+  name: 'prasad',
+  age: 24,
+  phone: 9894242,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619998cb022502fa822351'),
+  role: 'Full stack developer',
+  firstname: 'Guruprasad',
+  lastname: 'Bandla',
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619f54cb022502fa822353')
+}
+db.Collec.deleteMany({age:{$gt:23}})
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+db.Collec.find()
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: '23',
+  phone: 3456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619998cb022502fa822351'),
+  role: 'Full stack developer',
+  firstname: 'Guruprasad',
+  lastname: 'Bandla',
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619f54cb022502fa822353')
+}
+db.Collec.updateOne({name:"Arman"},{$set:{age:23}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.Collec.find()
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: 23,
+  phone: 3456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619998cb022502fa822351'),
+  role: 'Full stack developer',
+  firstname: 'Guruprasad',
+  lastname: 'Bandla',
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619f54cb022502fa822353')
+}
+db.Collec.insertMany([
+    { 
+        _id:1,
+        firstName: "John",
+        lastName: "King",
+        gender:'male',
+        email: "john.king@abc.com",
+        salary: 5000,
+        department: { 
+                    "name":"HR" 
+                }
+    },
+    { 
+        _id:2,
+        firstName: "Sachin",
+        lastName: "T",
+        gender:'male',
+        email: "sachin.t@abc.com",
+        salary: 8000,
+        department: { 
+                    "name":"Finance" 
+                }
+    },
+    { 
+        _id:3,
+        firstName: "James",
+        lastName: "Bond",
+        gender:'male',
+        email: "jamesb@abc.com",
+        salary: 7500,
+        department: { 
+                    "name":"Marketing" 
+                }
+    },
+    { 
+        _id:4,
+        firstName: "Rosy",
+        lastName: "Brown",
+        gender:'female',
+        email: "rosyb@abc.com",
+        salary: 5000, 
+        department: { 
+                    "name":"HR" 
+                }
+
+    },
+    { 
+        _id:5,
+        firstName: "Kapil",
+        lastName: "D",
+        gender:'male',
+        email: "kapil.d@abc.com",
+        salary: 4500,
+        department: { 
+                    "name":"Finance" 
+                }
+
+    },
+    { 
+        _id:6,
+        firstName: "Amitabh",
+        lastName: "B",
+        gender:'male',
+        email: "amitabh.b@abc.com",
+        salary: 7000,
+        department: { 
+                    "name":"Marketing" 
+                }
+    }
+])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': 1,
+    '1': 2,
+    '2': 3,
+    '3': 4,
+    '4': 5,
+    '5': 6
+  }
+}
+db.Collec.find()
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: 23,
+  phone: 3456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619998cb022502fa822351'),
+  role: 'Full stack developer',
+  firstname: 'Guruprasad',
+  lastname: 'Bandla',
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619f54cb022502fa822353')
+}
+{
+  _id: 1,
+  firstName: 'John',
+  lastName: 'King',
+  gender: 'male',
+  email: 'john.king@abc.com',
+  salary: 5000,
+  department: {
+    name: 'HR'
+  }
+}
+{
+  _id: 2,
+  firstName: 'Sachin',
+  lastName: 'T',
+  gender: 'male',
+  email: 'sachin.t@abc.com',
+  salary: 8000,
+  department: {
+    name: 'Finance'
+  }
+}
+{
+  _id: 3,
+  firstName: 'James',
+  lastName: 'Bond',
+  gender: 'male',
+  email: 'jamesb@abc.com',
+  salary: 7500,
+  department: {
+    name: 'Marketing'
+  }
+}
+{
+  _id: 4,
+  firstName: 'Rosy',
+  lastName: 'Brown',
+  gender: 'female',
+  email: 'rosyb@abc.com',
+  salary: 5000,
+  department: {
+    name: 'HR'
+  }
+}
+{
+  _id: 5,
+  firstName: 'Kapil',
+  lastName: 'D',
+  gender: 'male',
+  email: 'kapil.d@abc.com',
+  salary: 4500,
+  department: {
+    name: 'Finance'
+  }
+}
+{
+  _id: 6,
+  firstName: 'Amitabh',
+  lastName: 'B',
+  gender: 'male',
+  email: 'amitabh.b@abc.com',
+  salary: 7000,
+  department: {
+    name: 'Marketing'
+  }
+}
+db.Collec.aggregate([ {$match:{gender:"female"}}])
+{
+  _id: 4,
+  firstName: 'Rosy',
+  lastName: 'Brown',
+  gender: 'female',
+  email: 'rosyb@abc.com',
+  salary: 5000,
+  department: {
+    name: 'HR'
+  }
+}
+db.Collec.aggregate([{$group:{_id:$department.name}}])
+ReferenceError: $department is not defined
+db.Collec.aggregate([])
+{
+  _id: ObjectId('66618be6cb022502fa82234e'),
+  name: 'Arman',
+  age: 23,
+  phone: 3456,
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619998cb022502fa822351'),
+  role: 'Full stack developer',
+  firstname: 'Guruprasad',
+  lastname: 'Bandla',
+  location: 'Bangalore'
+}
+{
+  _id: ObjectId('66619f54cb022502fa822353')
+}
+{
+  _id: 1,
+  firstName: 'John',
+  lastName: 'King',
+  gender: 'male',
+  email: 'john.king@abc.com',
+  salary: 5000,
+  department: {
+    name: 'HR'
+  }
+}
+{
+  _id: 2,
+  firstName: 'Sachin',
+  lastName: 'T',
+  gender: 'male',
+  email: 'sachin.t@abc.com',
+  salary: 8000,
+  department: {
+    name: 'Finance'
+  }
+}
+{
+  _id: 3,
+  firstName: 'James',
+  lastName: 'Bond',
+  gender: 'male',
+  email: 'jamesb@abc.com',
+  salary: 7500,
+  department: {
+    name: 'Marketing'
+  }
+}
+{
+  _id: 4,
+  firstName: 'Rosy',
+  lastName: 'Brown',
+  gender: 'female',
+  email: 'rosyb@abc.com',
+  salary: 5000,
+  department: {
+    name: 'HR'
+  }
+}
+{
+  _id: 5,
+  firstName: 'Kapil',
+  lastName: 'D',
+  gender: 'male',
+  email: 'kapil.d@abc.com',
+  salary: 4500,
+  department: {
+    name: 'Finance'
+  }
+}
+{
+  _id: 6,
+  firstName: 'Amitabh',
+  lastName: 'B',
+  gender: 'male',
+  email: 'amitabh.b@abc.com',
+  salary: 7000,
+  department: {
+    name: 'Marketing'
+  }
+}
+db.Collec.aggregate([{$group:{_id:'$department.name'}}])
+{
+  _id: 'Marketing'
+}
+{
+  _id: null
+}
+{
+  _id: 'HR'
+}
+{
+  _id: 'Finance'
+}
+db.Collec.aggregate([{$group:{_id:'$department.name',total:{$sum:1}}}])
+{
+  _id: 'Finance',
+  total: 2
+}
+{
+  _id: 'Marketing',
+  total: 2
+}
+{
+  _id: null,
+  total: 3
+}
+{
+  _id: 'HR',
+  total: 2
+}
+db.Collec.aggregate([
+  {$match:{gender:"male"}},
+  {$group:{_id:'$department.name', total:{$sum:1}}}
+])
+{
+  _id: 'Finance',
+  total: 2
+}
+{
+  _id: 'Marketing',
+  total: 2
+}
+{
+  _id: 'HR',
+  total: 1
+}
+db.Collec.aggregate([
+  {$match:{gender:"male"}},
+])
+{
+  _id: 1,
+  firstName: 'John',
+  lastName: 'King',
+  gender: 'male',
+  email: 'john.king@abc.com',
+  salary: 5000,
+  department: {
+    name: 'HR'
+  }
+}
+{
+  _id: 2,
+  firstName: 'Sachin',
+  lastName: 'T',
+  gender: 'male',
+  email: 'sachin.t@abc.com',
+  salary: 8000,
+  department: {
+    name: 'Finance'
+  }
+}
+{
+  _id: 3,
+  firstName: 'James',
+  lastName: 'Bond',
+  gender: 'male',
+  email: 'jamesb@abc.com',
+  salary: 7500,
+  department: {
+    name: 'Marketing'
+  }
+}
+{
+  _id: 5,
+  firstName: 'Kapil',
+  lastName: 'D',
+  gender: 'male',
+  email: 'kapil.d@abc.com',
+  salary: 4500,
+  department: {
+    name: 'Finance'
+  }
+}
+{
+  _id: 6,
+  firstName: 'Amitabh',
+  lastName: 'B',
+  gender: 'male',
+  email: 'amitabh.b@abc.com',
+  salary: 7000,
+  department: {
+    name: 'Marketing'
+  }
+}
+db.Collec.aggregate([
+  {$match:{gender:'male'}},
+  {$sort:{firstName:1}}
+])
+{
+  _id: 6,
+  firstName: 'Amitabh',
+  lastName: 'B',
+  gender: 'male',
+  email: 'amitabh.b@abc.com',
+  salary: 7000,
+  department: {
+    name: 'Marketing'
+  }
+}
+{
+  _id: 3,
+  firstName: 'James',
+  lastName: 'Bond',
+  gender: 'male',
+  email: 'jamesb@abc.com',
+  salary: 7500,
+  department: {
+    name: 'Marketing'
+  }
+}
+{
+  _id: 1,
+  firstName: 'John',
+  lastName: 'King',
+  gender: 'male',
+  email: 'john.king@abc.com',
+  salary: 5000,
+  department: {
+    name: 'HR'
+  }
+}
+{
+  _id: 5,
+  firstName: 'Kapil',
+  lastName: 'D',
+  gender: 'male',
+  email: 'kapil.d@abc.com',
+  salary: 4500,
+  department: {
+    name: 'Finance'
+  }
+}
+{
+  _id: 2,
+  firstName: 'Sachin',
+  lastName: 'T',
+  gender: 'male',
+  email: 'sachin.t@abc.com',
+  salary: 8000,
+  department: {
+    name: 'Finance'
+  }
+}
+ db.employees.aggregate([
+    { $match:{ gender:'male'}}, 
+    { $group:{ _id:{ deptName:'$department.name'}, totalEmployees: { $sum:1} } },
+    { $sort:{ deptName:1}}
+])
+db.Collec.aggregate([
+  {$match:{gender:"ma"}}
+])
+ db.Collec.aggregate([
+    { $match:{ gender:'male'}}, 
+    { $group:{ _id:{ deptName:'$department.name'}, totalEmployees: { $sum:1} } },
+    { $sort:{ deptName:1}}
+])
+{
+  _id: {
+    deptName: 'Finance'
+  },
+  totalEmployees: 2
+}
+{
+  _id: {
+    deptName: 'Marketing'
+  },
+  totalEmployees: 2
+}
